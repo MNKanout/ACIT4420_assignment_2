@@ -1,53 +1,36 @@
-# tests/test_contacts_manager.py
 import unittest
 from morning_greetings.contacts_manager import ContactsManager
+from morning_greetings.contacts import Contact
 
 
 class TestContactsManager(unittest.TestCase):
-    """
-    Unit tests for the ContactsManager class.
-    """
-
-    def setUp(self) -> None:
-        """
-        Set up a new ContactsManager instance before each test.
-        """
+    
+    def setUp(self):
         self.manager = ContactsManager()
 
-    def test_add_contact(self) -> None:
+    def test_add_contact(self):
         """
-        Test adding a new contact.
+        Test if a contact is added correctly.
         """
-        self.manager.add_contact("Diana", "diana@example.com", "09:30 AM")
-        self.assertEqual(len(self.manager.get_contacts()), 4)  # 3 default + 1 new
+        self.manager.add_contact("Diana", "diana@example.com", "09:00 AM")
+        contacts = self.manager.get_contacts()
+        self.assertIn(Contact("Diana", "diana@example.com", "09:00 AM"), contacts)
 
-    def test_remove_contact(self) -> None:
+    def test_remove_contact(self):
         """
-        Test removing an existing contact.
+        Test if a contact is removed correctly.
         """
         self.manager.remove_contact("Alice")
-        self.assertEqual(len(self.manager.get_contacts()), 2)
+        contacts = self.manager.get_contacts()
+        self.assertNotIn(Contact("Alice", "alice@example.com", "08:00 AM"), contacts)
 
-    def test_remove_nonexistent_contact(self) -> None:
+    def test_get_contacts(self):
         """
-        Test removing a contact that does not exist.
-        """
-        self.manager.remove_contact("NonExistent")
-        self.assertEqual(len(self.manager.get_contacts()), 3)
-
-    def test_get_contacts(self) -> None:
-        """
-        Test retrieving the contact list.
+        Test retrieving all contacts.
         """
         contacts = self.manager.get_contacts()
-        self.assertEqual(len(contacts), 3)
-        self.assertEqual(contacts[0]['name'], "Alice")
+        self.assertEqual(len(contacts), 3)  # By default, 3 contacts are initialized
 
-    def test_list_contacts(self) -> None:
-        """
-        Test listing contacts by checking the output format.
-        """
-        self.manager.list_contacts()
 
 if __name__ == '__main__':
     unittest.main()

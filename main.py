@@ -14,13 +14,13 @@ def main() -> None:
 
     # Iterate over each contact, generate a message, send it, and log it
     for contact in contacts:
-        name = contact['name']
-        email = contact['email']
+        name = contact.name
+        email = contact.email
         message = generate_message(name)
         
         try:
             send_message(email, message)   # Simulate sending message
-            log_message(contact, message)  # Log the message sent
+            log_message({"name": name, "email": email}, message)  # Log the message sent
         except ValueError as e:
             print(f"Failed to send message to {name}: {e}")
             

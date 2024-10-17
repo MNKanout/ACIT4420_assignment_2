@@ -1,59 +1,50 @@
-from typing import List, Dict
+from typing import List
+from morning_greetings.contacts import Contact
 
 
 class ContactsManager:
     """
-    A class to manage a list of contacts, allowing adding, removing, and retrieving contacts.
-    Each contact contains a name, email, and preferred greeting time.
+    A class to manage a list of contacts.
+    
+    Methods:
+        add_contact(name, email, preferred_time): Adds a contact to the list.
+        remove_contact(name): Removes a contact by name.
+        get_contacts(): Retrieves all contacts.
     """
-
+    
     def __init__(self) -> None:
-        """
-        Initialize the contact manager with an optional default contact list.
-        """
-        self.contacts: List[Dict[str, str]] = [
-            {"name": "Alice", "email": "alice@example.com", "preferred_time": "08:00 AM"},
-            {"name": "Bob", "email": "bob@example.com", "preferred_time": "09:00 AM"},
-            {"name": "Charlie", "email": "charlie@example.com", "preferred_time": "07:30 AM"}
+        self.contacts: List[Contact] = [
+            Contact("Alice", "alice@example.com", "08:00 AM"),
+            Contact("Bob", "bob@example.com", "09:00 AM"),
+            Contact("Charlie", "charlie@example.com", "07:30 AM")
         ]
 
     def add_contact(self, name: str, email: str, preferred_time: str = "08:00 AM") -> None:
         """
-        Add a new contact to the contact list.
-
+        Adds a contact to the contacts list.
+        
         Args:
-            name (str): The name of the contact.
-            email (str): The email of the contact.
-            preferred_time (str, optional): The preferred time for greetings. Defaults to "08:00 AM".
+            name (str): The contact's name.
+            email (str): The contact's email.
+            preferred_time (str): The preferred greeting time.
         """
-        contact = {
-            'name': name,
-            'email': email,
-            'preferred_time': preferred_time
-        }
+        contact = Contact(name, email, preferred_time)
         self.contacts.append(contact)
 
     def remove_contact(self, name: str) -> None:
         """
-        Remove a contact from the contact list by name.
-
+        Removes a contact from the list by name.
+        
         Args:
-            name (str): The name of the contact to be removed.
+            name (str): The name of the contact to remove.
         """
-        self.contacts = [c for c in self.contacts if c['name'] != name]
+        self.contacts = [c for c in self.contacts if c.name != name]
 
-    def get_contacts(self) -> List[Dict[str, str]]:
+    def get_contacts(self) -> List[Contact]:
         """
-        Retrieve the current contact list.
-
+        Returns the list of contacts.
+        
         Returns:
-            List[Dict[str, str]]: A list of contacts, each containing name, email, and preferred_time.
+            List[Contact]: The list of contacts.
         """
         return self.contacts
-
-    def list_contacts(self) -> None:
-        """
-        Print out all contacts in the contact list.
-        """
-        for contact in self.contacts:
-            print(f"Name: {contact['name']}, Email: {contact['email']}, Preferred Time: {contact['preferred_time']}")
