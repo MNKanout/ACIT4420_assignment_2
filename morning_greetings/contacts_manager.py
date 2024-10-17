@@ -5,13 +5,13 @@ from morning_greetings.contacts import Contact
 class ContactsManager:
     """
     A class to manage a list of contacts.
-    
+
     Methods:
         add_contact(name, email, preferred_time): Adds a contact to the list.
         remove_contact(name): Removes a contact by name.
         get_contacts(): Retrieves all contacts.
     """
-    
+
     def __init__(self) -> None:
         self.contacts: List[Contact] = [
             Contact("Alice", "alice@example.com", "08:00 AM"),
@@ -28,6 +28,9 @@ class ContactsManager:
             email (str): The contact's email.
             preferred_time (str): The preferred greeting time.
         """
+        if any(contact.name == name for contact in self.contacts):
+            raise ValueError(f"A contact with the name '{name}' already exists.")
+        
         contact = Contact(name, email, preferred_time)
         self.contacts.append(contact)
 
@@ -37,8 +40,15 @@ class ContactsManager:
         
         Args:
             name (str): The name of the contact to remove.
+        
+        Raises:
+            ValueError: If the contact does not exist.
         """
-        self.contacts = [c for c in self.contacts if c.name != name]
+        for contact in self.contacts:
+            if contact.name == name:
+                self.contacts.remove(contact)
+                return
+        raise ValueError(f"No contact found with the name '{name}'.")
 
     def get_contacts(self) -> List[Contact]:
         """

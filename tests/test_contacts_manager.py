@@ -9,27 +9,27 @@ class TestContactsManager(unittest.TestCase):
         self.manager = ContactsManager()
 
     def test_add_contact(self):
-        """
-        Test if a contact is added correctly.
-        """
+        """Test if a contact is added correctly."""
         self.manager.add_contact("Diana", "diana@example.com", "09:00 AM")
         contacts = self.manager.get_contacts()
         self.assertIn(Contact("Diana", "diana@example.com", "09:00 AM"), contacts)
 
     def test_remove_contact(self):
-        """
-        Test if a contact is removed correctly.
-        """
+        """Test if a contact is removed correctly."""
         self.manager.remove_contact("Alice")
         contacts = self.manager.get_contacts()
         self.assertNotIn(Contact("Alice", "alice@example.com", "08:00 AM"), contacts)
 
     def test_get_contacts(self):
-        """
-        Test retrieving all contacts.
-        """
+        """Test retrieving all contacts."""
         contacts = self.manager.get_contacts()
         self.assertEqual(len(contacts), 3)  # By default, 3 contacts are initialized
+
+    def test_remove_non_existent_contact(self):
+        """Test removing a non-existent contact raises an error."""
+        with self.assertRaises(ValueError) as context:
+            self.manager.remove_contact("NonExistent")
+        self.assertEqual(str(context.exception), "No contact found with the name 'NonExistent'.")
 
 
 if __name__ == '__main__':

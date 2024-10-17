@@ -1,14 +1,18 @@
 import datetime
-from typing import Dict
 
-
-def log_message(contact: Dict[str, str], message: str) -> None:
+def log_message(contact: dict, message: str) -> None:
     """
-    Logs the sent message with a timestamp to a log file.
-
+    Logs the sent message to a log file.
+    
     Args:
-        contact (Dict[str, str]): The contact information of the friend (name, contact info, etc.).
+        contact (dict): The contact information.
         message (str): The message that was sent.
+        
+    Raises:
+        IOError: If there is an issue writing to the log file.
     """
-    with open("message_log.txt", "a") as log_file:
-        log_file.write(f"{datetime.datetime.now()} - Sent to {contact['name']}: {message}\n")
+    try:
+        with open("message_log.txt", "a") as log_file:
+            log_file.write(f"{datetime.datetime.now()} - Sent to {contact['name']}: {message}\n")
+    except IOError as e:
+        raise IOError(f"Failed to write to log file: {e}")
