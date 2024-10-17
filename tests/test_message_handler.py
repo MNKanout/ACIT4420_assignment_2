@@ -1,5 +1,5 @@
 import unittest
-from message_handler import generate_message, send_message
+from morning_greetings.message_handler import generate_message, send_message
 
 
 class TestMessageHandler(unittest.TestCase):
